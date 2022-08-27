@@ -34,7 +34,6 @@ colors = [ RGBColor(255,0,0), RGBColor(0,255,0), RGBColor(0,0,255) ]
 i = 0
 
 while RUNNING:
-  print(RUNNING)
   for count, row in enumerate(rows):
     j = i + count
     for key in row:
