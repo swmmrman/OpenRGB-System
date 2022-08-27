@@ -1,7 +1,8 @@
-#!/bin/env.? python3
+#!/bin/env python3
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
 from time import sleep
+import psutil
 import signal
 
 RUNNING = True
@@ -25,3 +26,5 @@ keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
 keyboard.clear()
 key_name_list = [ key.name[5:] for key in keyboard.leds ]
 
+
+cpu_count = psutil.cpu_count()
