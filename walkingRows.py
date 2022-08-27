@@ -42,17 +42,16 @@ rows = [
          ]
        ]
 
-colors = [ RGBColor(255,0,0), RGBColor(0,255,0), RGBColor(0,0,255) ]
 i = 0
 
 while RUNNING:
   for count, row in enumerate(rows):
-    j = i + count
+    hue = count + abs(i)
     for key in row:
-      keyboard.colors[key_name_list.index(key)] = colors[j % (len(colors)) ]
+      keyboard.colors[key_name_list.index(key)] = RGBColor.fromHSV(hue, 100, 100)
   keyboard.show()
-  i += 1
-  sleep(.25)
+  i = (i - 5) % 360
+  sleep(.016)
 
 keyboard.clear()
 print("\r", end="")
