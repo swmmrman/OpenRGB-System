@@ -26,9 +26,11 @@ signal.signal(signal.SIGTERM, sig_handler)
 
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
+START_COLORS = keyboard.colors
 keyboard.clear()
 keyboard.set_color(BACKGROUND)
 
+print(F"{START_COLORS}")
 KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
 cpu_count = psutil.cpu_count()
@@ -43,5 +45,6 @@ while RUNNING:
 
   keyboard.show()
 
-keyboard.clear()
+keyboard.colors = START_COLORS
+keyboard.show()
 print("\r", end="")
