@@ -12,8 +12,8 @@ def sig_handler(sig, frame):
   RUNNING = False
 
 
-BACKGROUND = "562500"
-START_COLOR = "210000"
+BACKGROUND = RGBColor(0x46, 0x25, 0x00)
+START_COLOR = RGBColor(0x21, 0x00, 0x00)
 KEYS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',]
 
