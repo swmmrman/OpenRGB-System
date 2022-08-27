@@ -30,9 +30,9 @@ KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
 cpu_count = psutil.cpu_count()
 
-cpu_usage = psutil.cpu_percent(interval=0.010, percpu=True)
 
 while RUNNING:
+  cpu_usage = psutil.cpu_percent(interval=0.010, percpu=True)
   for core, percent in enumerate(cpu_usage):
     percent = percent / 100
     key_id = KEY_NAME_LIST.index(KEYS[core].upper())
