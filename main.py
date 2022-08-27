@@ -24,7 +24,7 @@ signal.signal(signal.SIGTERM, sig_handler)
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
 keyboard.clear()
-key_name_list = [ key.name[5:] for key in keyboard.leds ]
 
+KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
 cpu_count = psutil.cpu_count()
