@@ -4,6 +4,9 @@ from openrgb.utils import RGBColor, DeviceType
 from time import sleep
 import psutil
 import signal
+import setproctitle
+
+setproctitle.setproctitle("OpenRGB-System")
 
 RUNNING = True
 
