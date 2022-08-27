@@ -2,6 +2,7 @@
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
 from time import sleep
+import os
 import psutil
 import signal
 import setproctitle
@@ -13,6 +14,14 @@ RUNNING = True
 def sig_handler(sig, frame):
   global RUNNING
   RUNNING = False
+
+
+def get_cpu_sensors():
+  sensors = os.listdir("/sys/class/hwmon/")
+  for sensor in sensors:
+    name = open(F"/sys/class/hwmon/{sensor}/name").readline().strip()
+    if name == "coretemp":
+      return(F"/sys/class/hwmon/{sensor}/")
 
 
 BACKGROUND = RGBColor(0x46, 0x25, 0x00)
@@ -30,11 +39,11 @@ START_COLORS = keyboard.colors
 keyboard.clear()
 keyboard.set_color(BACKGROUND)
 
-print(F"{START_COLORS}")
 KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
 cpu_count = psutil.cpu_count()
-
+cpu_sensors = get_cpu_sensors()
+print(cpu_sensors)
 
 while RUNNING:
   cpu_usage = psutil.cpu_percent(interval=0.0166, percpu=True)
