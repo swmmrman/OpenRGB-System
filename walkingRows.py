@@ -53,3 +53,6 @@ while RUNNING:
   keyboard.show()
   i += 1
   sleep(.25)
+
+keyboard.clear()
+print("\r", end="")
