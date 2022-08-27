@@ -16,8 +16,14 @@ signal.signal(signal.SIGTERM, sig_handler)
 
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
+keyboard.clear()
 key_name_list = [ key.name[5:] for key in keyboard.leds ]
 rows = [
+         ['', 'Brightness'], # '' = Logo
+         ['Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+          'Print Screen', 'Scroll Lock', 'Pause/Break', 'Media Previous', 'Media Play/Pause',
+          'Media Next', 'Media Mute'
+         ],
          ['G1', '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
           'Insert', 'Home', 'Page Up', 'Num Lock', 'Number Pad /', 'Number Pad *', 'Number Pad -'
          ],
@@ -25,9 +31,15 @@ rows = [
           'Delete', 'End', 'Page Down', 'Number Pad 7', 'Number Pad 8', 'Number Pad 9',
           'Number Pad +'
          ],
-         ['G3', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter', 'Number Pad 4',
-          'Number Pad 5', 'Number Pad 6'
+         ['G3', 'Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter',
+          'Number Pad 4', 'Number Pad 5', 'Number Pad 6'
          ],
+         ['G4', 'Left Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'Right Shift',
+          'Up Arrow', 'Number Pad 1', 'Number Pad 2', 'Number Pad 3', 'Number Pad Enter'
+         ],
+         ['G5', 'Left Control', 'Left Windows', 'Left Alt', 'Space', 'Right Windows', 'Menu',
+          'Right Control', 'Left Arrow', 'Down Arrow', 'Right Arrow', 'Number Pad 0', 'Number Pad .'
+         ]
        ]
 
 colors = [ RGBColor(255,0,0), RGBColor(0,255,0), RGBColor(0,0,255) ]
@@ -40,4 +52,4 @@ while RUNNING:
       keyboard.colors[key_name_list.index(key)] = colors[j % (len(colors)) ]
   keyboard.show()
   i += 1
-  sleep(.2)
+  sleep(.25)
