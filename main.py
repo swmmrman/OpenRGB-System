@@ -32,10 +32,13 @@ cpu_count = psutil.cpu_count()
 
 
 while RUNNING:
-  cpu_usage = psutil.cpu_percent(interval=0.010, percpu=True)
+  cpu_usage = psutil.cpu_percent(interval=0.0166, percpu=True)
   for core, percent in enumerate(cpu_usage):
     percent = percent / 100
     key_id = KEY_NAME_LIST.index(KEYS[core].upper())
     keyboard.colors[key_id] = RGBColor(round(percent * 255), 110 - round(percent * 110), 0)
 
   keyboard.show()
+
+keyboard.clear()
+print("\r", end="")
