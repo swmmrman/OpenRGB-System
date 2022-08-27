@@ -2,6 +2,17 @@
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
 from time import sleep
+import signal
+
+RUNNING = True
+
+def sig_handler(sig, frame):
+  global RUNNING
+  RUNNING = False
+
+
+signal.signal(signal.SIGINT, sig_handler)
+signal.signal(signal.SIGTERM, sig_handler)
 
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
@@ -22,7 +33,8 @@ rows = [
 colors = [ RGBColor(255,0,0), RGBColor(0,255,0), RGBColor(0,0,255) ]
 i = 0
 
-while True:
+while RUNNING:
+  print(RUNNING)
   for count, row in enumerate(rows):
     j = i + count
     for key in row:
