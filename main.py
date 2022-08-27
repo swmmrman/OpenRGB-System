@@ -24,6 +24,7 @@ signal.signal(signal.SIGTERM, sig_handler)
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
 keyboard.clear()
+keyboard.set_color(BACKGROUND)
 
 KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
