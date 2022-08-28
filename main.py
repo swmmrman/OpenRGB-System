@@ -40,10 +40,10 @@ signal.signal(signal.SIGTERM, sig_handler)
 
 cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
+start_mode = keyboard.active_mode
+keyboard.set_mode('Direct')
 START_COLORS = keyboard.colors
 keyboard.clear()
-currentmode = keyboard.active_mode
-keyboard.set_mode('Direct')
 keyboard.set_color(BACKGROUND)
 
 KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
@@ -68,4 +68,5 @@ while RUNNING:
 
 keyboard.colors = START_COLORS
 keyboard.show()
+keyboard.set_mode(start_mode)
 print("\r", end="")
