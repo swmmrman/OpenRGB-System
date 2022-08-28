@@ -25,9 +25,13 @@ def get_cpu_sensors():
             return F"/sys/class/hwmon/{sensor}/"
 
 
+def make_color(percent):
+    return RGBColor(round(percent * 255), 255 - round(percent * 255), 0)
+
+
 BACKGROUND = RGBColor(0x46, 0x25, 0x00)
 START_COLOR = RGBColor(0x21, 0x00, 0x00)
-KEYS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
         'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',]
 
 
@@ -54,16 +58,13 @@ while RUNNING:
     temp = ((cpu_temp - 30) * 1.4) / 100
     if temp > 1:
         temp = 1
-    keyboard.colors[KEY_NAME_LIST.index('')] = RGBColor( round(temp * 255),
-                                                       180 - round(temp * 180),
-                                                       0
-                                                     )
+    keyboard.colors[KEY_NAME_LIST.index('')] = make_color(temp)
     for core, percent in enumerate(cpu_usage):
         percent = percent / 100
         key_id = KEY_NAME_LIST.index(KEYS[core].upper())
-        keyboard.colors[key_id] = RGBColor(round(percent * 255), 110 - round(percent * 110), 0)
+        keyboard.colors[key_id] = make_color(percent)
 
-        keyboard.show()
+    keyboard.show()
 
 keyboard.colors = START_COLORS
 keyboard.show()
