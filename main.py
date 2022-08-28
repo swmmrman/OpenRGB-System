@@ -11,17 +11,18 @@ setproctitle.setproctitle("OpenRGB-System")
 
 RUNNING = True
 
+
 def sig_handler(sig, frame):
-  global RUNNING
-  RUNNING = False
+    global RUNNING
+    RUNNING = False
 
 
 def get_cpu_sensors():
-  sensors = os.listdir("/sys/class/hwmon/")
-  for sensor in sensors:
-    name = open(F"/sys/class/hwmon/{sensor}/name").readline().strip()
-    if name == "coretemp":
-      return(F"/sys/class/hwmon/{sensor}/")
+    sensors = os.listdir("/sys/class/hwmon/")
+    for sensor in sensors:
+        name = open(F"/sys/class/hwmon/{sensor}/name").readline().strip()
+        if name == "coretemp":
+            return F"/sys/class/hwmon/{sensor}/"
 
 
 BACKGROUND = RGBColor(0x46, 0x25, 0x00)
@@ -37,22 +38,32 @@ cli = OpenRGBClient()
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
 START_COLORS = keyboard.colors
 keyboard.clear()
+currentmode = keyboard.active_mode
+keyboard.set_mode('Direct')
 keyboard.set_color(BACKGROUND)
 
 KEY_NAME_LIST = [ key.name[5:] for key in keyboard.leds ]
 
 cpu_count = psutil.cpu_count()
 cpu_sensors = get_cpu_sensors()
-print(cpu_sensors)
+
 
 while RUNNING:
-  cpu_usage = psutil.cpu_percent(interval=0.0166, percpu=True)
-  for core, percent in enumerate(cpu_usage):
-    percent = percent / 100
-    key_id = KEY_NAME_LIST.index(KEYS[core].upper())
-    keyboard.colors[key_id] = RGBColor(round(percent * 255), 110 - round(percent * 110), 0)
+    cpu_usage = psutil.cpu_percent(interval=0.0166, percpu=True)
+    cpu_temp = int(open(F"{cpu_sensors}temp1_input").readline().strip())/1000
+    temp = ((cpu_temp - 30) * 1.4) / 100
+    if temp > 1:
+        temp = 1
+    keyboard.colors[KEY_NAME_LIST.index('')] = RGBColor( round(temp * 255),
+                                                       180 - round(temp * 180),
+                                                       0
+                                                     )
+    for core, percent in enumerate(cpu_usage):
+        percent = percent / 100
+        key_id = KEY_NAME_LIST.index(KEYS[core].upper())
+        keyboard.colors[key_id] = RGBColor(round(percent * 255), 110 - round(percent * 110), 0)
 
-  keyboard.show()
+        keyboard.show()
 
 keyboard.colors = START_COLORS
 keyboard.show()
