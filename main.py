@@ -26,7 +26,9 @@ def get_cpu_sensors():
 
 
 def make_color(percent):
-    return RGBColor(round(percent * 255), 255 - round(percent * 255), 0)
+    red = max(min(round(percent * 255), 255), 0)
+    green = max(min( 255 - round(percent * 255), 255), 0)
+    return RGBColor(red, green, 0)
 
 
 BACKGROUND = RGBColor(0x46, 0x25, 0x00)
