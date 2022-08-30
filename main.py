@@ -25,9 +25,12 @@ def get_cpu_sensors():
             return F"/sys/class/hwmon/{sensor}/"
 
 
-def make_color(cval):
+def make_color(cval, dbg=False):
+    cval = cval * 2
     red = max(min(round(cval * 255), 255), 0)
-    green = max(min(255 - round(cval * 255), 255), 0)
+    green = max(min(485 - round(cval * 255), 255), 0)
+    if dbg:
+        print(F"cval:{cval:.3f}, R:{red:x}, G:{green:x}")
     return RGBColor(red, green, 0)
 
 
