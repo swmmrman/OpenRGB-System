@@ -6,6 +6,8 @@ import os
 import psutil
 import signal
 import setproctitle
+import sys
+
 
 setproctitle.setproctitle("OpenRGB-System")
 
@@ -43,7 +45,18 @@ KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 signal.signal(signal.SIGINT, sig_handler)
 signal.signal(signal.SIGTERM, sig_handler)
 
-cli = OpenRGBClient()
+cli = None
+fails = 0
+while cli == None:
+    if fails > 30:
+        sys.stderr.write("SDK server not found.\n")
+        sys.exit(1)
+    try:
+        cli = OpenRGBClient()
+    except ConnectionRefusedError:
+        fails = fails + 1;
+        sleep(1)
+
 keyboard = cli.get_devices_by_type(DeviceType.KEYBOARD)[0]
 start_mode = keyboard.active_mode
 keyboard.set_mode('Direct')
